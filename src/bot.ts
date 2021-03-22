@@ -18,6 +18,7 @@ const client = new Client({
 
 client
     .on("error", console.error)
+    .on("warn", console.warn)
     .on("ready", () => {
         // TODO go through multiple activities
         client.user?.setActivity({name: "!pphelp", type: "PLAYING"});

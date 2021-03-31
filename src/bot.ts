@@ -32,6 +32,10 @@ client
         if(error instanceof FriendlyError) return;
         console.error(`Error in command ${command.groupID}:${command.memberName}`, error);
     })
+    // @ts-ignore
+    .on("commandBlock", (message, reason) => {
+        console.log(`Command ${message.command ? `${message.command.groupID}:${message.command.memberName}` : ""} blocked`, reason);
+    })
 
 client.setProvider(
     sqlite.open({filename: "database.db", driver: sqlite3.Database}).then(db => new SQLiteProvider(db))

@@ -11,7 +11,9 @@ const client = new Client({
     owner: [
         "472312270047674378",
         "596012554598481977",
-        "511209271678074891"
+        "511209271678074891",
+        "348591213953417218",
+        "485089214027923462"
     ],
     commandPrefix: "!pp"
 });
@@ -24,6 +26,11 @@ client
         // TODO go through multiple activities
         client.user?.setActivity({name: "!pphelp", type: "PLAYING"});
         console.log("Client is ready!");
+    })
+    // @ts-ignore
+    .on("commandError", (command, error) => {
+        if(error instanceof FriendlyError) return;
+        console.error(`Error in command ${command.groupID}:${command.memberName}`, error);
     })
 
 client.setProvider(

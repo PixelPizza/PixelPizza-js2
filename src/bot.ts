@@ -36,6 +36,9 @@ client
     .on("commandBlock", (message, reason) => {
         console.log(`Command ${message.command ? `${message.command.groupID}:${message.command.memberName}` : ""} blocked`, reason);
     })
+    .on("commandStatusChange", (guild, command, enabled) => {
+        console.log(`Command ${command.groupID}:${command.memberName} ${enabled ? "enabled" : "disabled"} ${guild ? `in ${guild.name}` : "globally"}`);
+    })
 
 client.setProvider(
     sqlite.open({filename: "database.db", driver: sqlite3.Database}).then(db => new SQLiteProvider(db))

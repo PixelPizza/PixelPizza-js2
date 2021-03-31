@@ -50,6 +50,13 @@ client.setProvider(
 client.registry
     .registerDefaultTypes()
     .registerDefaultGroups()
+    .registerGroups([
+        {
+            id: "rules",
+            name: "Rules",
+            guarded: true
+        },
+    ])
     .registerCommandsIn(path.join(__dirname, "commands"))
 
 client.login(token);

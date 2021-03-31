@@ -27,7 +27,18 @@ module.exports = class RulesCommand extends Command {
                 description
             }) : description);
         }
-        return this.splitMessage(rules.map((rule, index) => `[${index+1}] ${rule.rule}${rule.anarchy ? " **Anarchy rule**" : ""}`), {maxLength: embeds ? 2048 : 2000, char: "\n", prepend: "", append: ""})
+        const indexedRules = rules.map((rule, index) => {
+            return {
+                rule: `[${index+1}] ${rule.rule}`,
+                anarchy: rule.anarchy
+            };
+        });
+        return this.splitMessage(stripIndents`
+            ${indexedRules.map(rule => rule.rule).join("\n")}
+
+            **Anarchy rules**
+            ${indexedRules.filter(rule => rule.anarchy).map(rule => rule.rule).join("\n")}
+        `, {maxLength: embeds ? 2048 : 2000, char: "\n", prepend: "", append: ""})
             .map(ruleList => message.channel.send(embeds ? new MessageEmbed({
                 color: "#0000FF",
                 title: "Rules",

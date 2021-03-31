@@ -39,6 +39,9 @@ client
     .on("commandStatusChange", (guild, command, enabled) => {
         console.log(`Command ${command.groupID}:${command.memberName} ${enabled ? "enabled" : "disabled"} ${guild ? `in ${guild.name}` : "globally"}`);
     })
+    .on("groupStatusChange", (guild, group, enabled) => {
+        console.log(`Group ${group.id} ${enabled ? "enabled" : "disabled"} ${guild ? `in guild ${guild.name}` : "globally"}`);
+    });
 
 client.setProvider(
     sqlite.open({filename: "database.db", driver: sqlite3.Database}).then(db => new SQLiteProvider(db))

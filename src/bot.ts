@@ -55,8 +55,8 @@ client.registry
             id: "rules",
             name: "Rules",
             guarded: true
-        },
+        }
     ])
-    .registerCommandsIn(path.join(__dirname, "commands"))
+    .registerCommandsIn(path.join(__dirname, "commands"));
 
 client.login(token);

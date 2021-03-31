@@ -108,3 +108,6 @@ database.db
 
 # data files
 data/
+
+# Visual Studio Code
+.vscode/

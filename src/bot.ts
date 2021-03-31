@@ -47,4 +47,9 @@ client.setProvider(
     sqlite.open({filename: "database.db", driver: sqlite3.Database}).then(db => new SQLiteProvider(db))
 ).catch(console.error);
 
+client.registry
+    .registerDefaultTypes()
+    .registerDefaultGroups()
+    .registerCommandsIn(path.join(__dirname, "commands"))
+
 client.login(token);

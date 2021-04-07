@@ -55,6 +55,10 @@ client.registry
             id: "rules",
             name: "Rules",
             guarded: true
+        },
+        {
+            id: "other",
+            name: "Other"
         }
     ])
     .registerCommandsIn(path.join(__dirname, "commands"));

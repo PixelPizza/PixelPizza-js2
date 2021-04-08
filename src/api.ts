@@ -4,6 +4,7 @@ type PixelID = string;
 
 export interface BotConfig {
     token: string;
+    pullurl: string;
 }
 
 export interface Rule {

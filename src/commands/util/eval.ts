@@ -78,7 +78,7 @@ module.exports = class EvalCommand extends Command {
     makeResultMessages(result: any, hrDiff: [number, number], input?: string) {
         const inspected = util.inspect(result, { depth: 0 })
             .replace(nlPattern, "\n")
-            .replace(this.sensitivePattern, "--snip--");
+            .replace(this.sensitivePattern, "BOT_TOKEN");
         const split = inspected.split("\n");
         const last = inspected.length - 1;
         const prependPart = inspected[0] !== '{' && inspected[0] !== '[' && inspected[0] !== "'" ? split[0] : inspected[0];

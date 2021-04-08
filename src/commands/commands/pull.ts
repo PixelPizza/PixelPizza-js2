@@ -33,7 +33,7 @@ module.exports = class PullCommand extends Command {
             **Pull**
             Pulling
         `);
-        return await new Promise<Message>((resolve, reject) => exec(`git pull ${pullurl}${process.platform == "linux" ? " && history -cw" : ""}`, function(error, stdout, stderr){
+        return await new Promise<Message>((resolve, reject) => exec(`git pull ${pullurl}`, function(error, stdout, stderr){
             if(error) {
                 pullMsg.edit(embeds ? new MessageEmbed({
                     color: "#FF0000",

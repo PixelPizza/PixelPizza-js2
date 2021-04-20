@@ -107,7 +107,7 @@ dist
 database.db
 
 # data files
-data/
+data/_config.json
 
 # Visual Studio Code
 .vscode/

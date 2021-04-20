@@ -2,7 +2,8 @@ import { DMChannel, MessageEmbed, Permissions } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 // @ts-ignore
 import { stripIndents } from "common-tags";
-import { Rule } from "../../api";
+import { Rule, BotSettings } from "../../api";
+const {mainguild} = (require("../../../data/settings") as BotSettings);
 
 module.exports = class EditRuleCommand extends Command {
     constructor(client: CommandoClient) {
@@ -40,7 +41,7 @@ module.exports = class EditRuleCommand extends Command {
     run(message: CommandoMessage, args: {ruleNumber: number, newRule: string, anarchy: boolean}) {
         let description = "Rule has been edited";
         const embeds = message.channel instanceof DMChannel || !message.guild.me ? true : message.channel.permissionsFor(message.guild.me)?.has(Permissions.FLAGS.EMBED_LINKS) ?? false;
-        if(this.client.provider.get(message.guild, "rules", []).length < args.ruleNumber || args.ruleNumber == 0){
+        if(this.client.provider.get(mainguild, "rules", []).length < args.ruleNumber || args.ruleNumber < 1){
             description = "Rule not found";
             return message.channel.send(embeds ? new MessageEmbed({
                 color: "#FF0000",
@@ -48,14 +49,12 @@ module.exports = class EditRuleCommand extends Command {
                 description
             }) : description);
         }
-        for(let guild of this.client.guilds.cache.values()) {
-            const rules: Rule[] = this.client.provider.get(guild, "rules", []);
-            rules[args.ruleNumber - 1] = {
-                rule: args.newRule,
-                anarchy: args.anarchy
-            };
-            this.client.provider.set(guild, "rules", rules);
-        }
+        const rules: Rule[] = this.client.provider.get(mainguild, "rules", []);
+        rules[args.ruleNumber - 1] = {
+            rule: args.newRule,
+            anarchy: args.anarchy
+        };
+        this.client.provider.set(mainguild, "rules", rules);
         return message.channel.send(embeds ? new MessageEmbed({
             color: "#00FF00",
             title: "Rule edited",

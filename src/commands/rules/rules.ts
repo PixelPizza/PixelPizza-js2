@@ -2,7 +2,8 @@ import { DMChannel, MessageEmbed, Permissions } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
 // @ts-ignore
 import { stripIndents } from "common-tags";
-import { Rule } from "../../api";
+import { Rule, BotSettings } from "../../api";
+const {mainguild} = (require("../../../data/settings") as BotSettings);
 
 module.exports = class RulesCommand extends Command {
     constructor(client: CommandoClient) {
@@ -18,7 +19,7 @@ module.exports = class RulesCommand extends Command {
     // @ts-ignore
     run(message: CommandoMessage) {
         const embeds = message.channel instanceof DMChannel || !message.guild.me ? true : message.channel.permissionsFor(message.guild.me)?.has(Permissions.FLAGS.EMBED_LINKS) ?? false;
-        const rules: Rule[] = this.client.provider.get(message.guild, "rules", []);
+        const rules: Rule[] = this.client.provider.get(mainguild, "rules", []);
         if(!rules.length) {
             const description = "Could not find rules, please look at <#710433559042588733>";
             return message.channel.send(embeds ? new MessageEmbed({

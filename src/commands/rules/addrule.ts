@@ -1,6 +1,7 @@
 import { DMChannel, MessageEmbed, Permissions } from "discord.js";
 import { Command, CommandoClient, CommandoMessage } from "discord.js-commando";
-import { Rule } from "../../api";
+import { Rule, BotSettings } from "../../api";
+const {mainguild} = (require("../../../data/settings") as BotSettings);
 
 module.exports = class AddRuleCommand extends Command {
     constructor(client: CommandoClient) {
@@ -31,7 +32,7 @@ module.exports = class AddRuleCommand extends Command {
     run(message: CommandoMessage, args: {rule: string, anarchy: boolean}) {
         let description = "Rule has been added";
         const embeds = message.channel instanceof DMChannel || !message.guild.me ? true : message.channel.permissionsFor(message.guild.me)?.has(Permissions.FLAGS.EMBED_LINKS) ?? false;
-        if(this.client.provider.get(message.guild, "rules", []).map((rule: Rule) => rule.rule).includes(args.rule)){
+        if(this.client.provider.get(mainguild, "rules", []).map((rule: Rule) => rule.rule).includes(args.rule)){
             description = "Rule already exists";
             return message.channel.send(embeds ? new MessageEmbed({
                 color: "#FF0000",
@@ -39,14 +40,12 @@ module.exports = class AddRuleCommand extends Command {
                 description
             }) : description);
         }
-        for(let guild of this.client.guilds.cache.values()){
-            const rules: Rule[] = this.client.provider.get(guild, "rules", []);
-            rules.push({
-                rule: args.rule,
-                anarchy: args.anarchy
-            });
-            this.client.provider.set(guild, "rules", rules);
-        }
+        const rules: Rule[] = this.client.provider.get(mainguild, "rules", []);
+        rules.push({
+            rule: args.rule,
+            anarchy: args.anarchy
+        });
+        this.client.provider.set(mainguild, "rules", rules);
         return message.channel.send(embeds ? new MessageEmbed({
             color: "#00FF00",
             title: "Rule added",

@@ -1,34 +1,43 @@
 import { Snowflake } from "discord.js";
 
 type PixelID = string;
+type Status = "all" | "not claimed" | "claimed" | "cooked" | "delivered" | "deleted";
 
-export interface BotConfig {
+interface BotConfig {
     token: string;
     pullurl: string;
 }
 
-export interface Rule {
+interface BotSettings {
+    mainguild: Snowflake;
+    order: {
+        chars: string;
+        length: number;
+    };
+}
+
+interface Rule {
     rule: string;
     anarchy: boolean;
 }
 
-export interface Order {
+interface Order {
     id: PixelID;
     userId: Snowflake;
     guildId: Snowflake;
     channelId: Snowflake;
-    cookId: Snowflake;
-    delivererId: Snowflake;
-    imageUrl: string;
-    status: "not claimed" | "claimed" | "cooked" | "delivered" | "deleted";
+    chefId?: Snowflake;
+    delivererId?: Snowflake;
+    imageUrl?: string;
+    status: Status;
     order: string;
     orderedAt: Date;
-    cookedAt: Date;
-    deliveredAt: Date;
-    deliveryMethod: "dm" | "personal" | "bot" | "none";
+    cookedAt?: Date;
+    deliveredAt?: Date;
+    deliveryMethod?: "dm" | "personal" | "bot";
 }
 
-export interface Application {
+interface Application {
     id: PixelID;
     userId: Snowflake;
     applicationType: "worker" | "staff" | "developer" | "teacher";
@@ -38,17 +47,17 @@ export interface Application {
     staffId: Snowflake;
 }
 
-export interface ApplicationAnswer {
+interface ApplicationAnswer {
     answer: string;
     question: string;
 }
 
-export interface Blacklist {
+interface Blacklist {
     userId: Snowflake;
     reason: string;
 }
 
-export interface Bug {
+interface Bug {
     id: PixelID;
     userId: Snowflake;
     bug: string;
@@ -57,7 +66,7 @@ export interface Bug {
     notes: Note[];
 }
 
-export interface Complaint {
+interface Complaint {
     id: PixelID;
     userId: Snowflake;
     complaint: string;
@@ -66,7 +75,7 @@ export interface Complaint {
     notes: Note[];
 }
 
-export interface Suggestion {
+interface Suggestion {
     id: PixelID;
     userId: Snowflake;
     suggestion: string;
@@ -75,12 +84,12 @@ export interface Suggestion {
     notes: Note[];
 }
 
-export interface Note {
+interface Note {
     userId: Snowflake;
     note: string;
 }
 
-export interface Config {
+interface Config {
     anarchyDay: Date;
     addExp: boolean;
     cookOwnOrder: boolean;
@@ -92,7 +101,7 @@ export interface Config {
     workerApplications: boolean;
 }
 
-export interface User {
+interface User {
     id: Snowflake;
     exp: number;
     level: number;
@@ -115,10 +124,16 @@ export interface User {
     };
 }
 
-export interface Worker {
+interface Worker {
     id: Snowflake;
     cooks: number;
     deliveries: number;
     deliveryMessage: string;
     addedAt: Date;
 }
+
+export {
+    BotConfig, 
+    BotSettings, 
+    Rule, 
+};

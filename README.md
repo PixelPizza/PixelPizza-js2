@@ -1,4 +1,4 @@
-# PixelPizza 2
+# PixelPizza 2 (Alpha)
 ## Explanation
 A discord bot that let's you order food (not only pizza)  
 You can also cook and deliver orders if you are a worker
